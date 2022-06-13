@@ -79,11 +79,6 @@ const Dashboard = () => {
                   albumName={name}
                   artists={artists}
                 />
-                <div className="dashboard-image">
-                  <img src={images[0].url} />
-                </div>
-                <p className="album-name">{name}</p>
-                <span>{artists.map((artist) => artist.name).join(",")}</span>
               </li>
             );
           }
