@@ -8,6 +8,7 @@ const initialState = {
   selectedPlaylist: null,
   currentlyPlaying: null,
   playerState: false,
+  searchResults: [],
 };
 const tokenSlice = createSlice({
   name: "token",
@@ -34,6 +35,9 @@ const tokenSlice = createSlice({
     setPlayerState: (state, action) => {
       state.playerState = action.payload;
     },
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload;
+    },
   },
 });
 export const {
@@ -44,6 +48,7 @@ export const {
   setPlaying,
   setPlayerState,
   setSelectedPlaylistId,
+  setSearchResults,
 } = tokenSlice.actions;
 
 export default tokenSlice.reducer;

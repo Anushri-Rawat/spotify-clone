@@ -9,43 +9,42 @@ import { FiRepeat } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { setPlayerState, setPlaying } from "../services/tokenSlice";
 import axios from "axios";
+import { spotifyVal } from "../App";
 
 function PlayerControl() {
   const { token, playerState } = useSelector((state) => state.token);
   const dispatch = useDispatch();
 
-  const changeTrack = async (type) => {
-    await axios.post(
-      `https://api.spotify.com/v1/me/player/${type}`,
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
+  const skipNext = () => {
+    spotifyVal.skipToNext();
+    spotifyVal.getMyCurrentPlayingTrack().then((r) => {
+      if (r !== "") {
+        const currentPlaying = {
+          id: r.item.id,
+          name: r.item.name,
+          artists: r.item.artists.map((artist) => artist.name),
+          image: r.item.album.images[2].url,
+        };
+        dispatch(setPlaying(currentPlaying));
       }
-    );
+      dispatch(setPlayerState(true));
+    });
+  };
 
-    const response1 = await axios.get(
-      "https://api.spotify.com/v1/me/player/currently-playing",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
+  const skipPrevious = () => {
+    spotifyVal.skipToPrevious();
+    spotifyVal.getMyCurrentPlayingTrack().then((r) => {
+      if (r !== "") {
+        const currentPlaying = {
+          id: r.item.id,
+          name: r.item.name,
+          artists: r.item.artists.map((artist) => artist.name),
+          image: r.item.album.images[2].url,
+        };
+        dispatch(setPlaying(currentPlaying));
       }
-    );
-    if (response1.data !== "") {
-      const currentPlaying = {
-        id: response1.data.item.id,
-        name: response1.data.item.name,
-        artists: response1.data.item.artists.map((artist) => artist.name),
-        image: response1.data.item.album.images[2].url,
-      };
-      dispatch(setPlaying(currentPlaying));
-    } else {
-      dispatch(setPlaying(null));
-    }
+      dispatch(setPlayerState(true));
+    });
   };
 
   const changeState = async () => {
@@ -69,7 +68,7 @@ function PlayerControl() {
       <div className="shuffle">
         <BsShuffle />
       </div>
-      <div className="previous" onClick={() => changeTrack("previous")}>
+      <div className="previous" onClick={skipPrevious}>
         <CgPlayTrackPrev />
       </div>
       <div className="state">
@@ -79,7 +78,7 @@ function PlayerControl() {
           <BsFillPlayCircleFill onClick={changeState} />
         )}
       </div>
-      <div className="next" onClick={() => changeTrack("next")}>
+      <div className="next" onClick={skipNext}>
         <CgPlayTrackNext />
       </div>
       <div className="repeat">

@@ -4,26 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 import Footer from "./Footer";
 import LeftMenu from "./LeftMenu";
 import MainContainer from "./MainContainer";
-import axios from "axios";
 import { setUser } from "../services/tokenSlice";
+import { spotifyVal } from "../App";
 
 const Spotify = () => {
-  const { token, user } = useSelector((state) => state.token);
+  const { user } = useSelector((state) => state.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getUserInfo = async () => {
-      const { data } = await axios.get("https://api.spotify.com/v1/me", {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
-      const userInfo = { id: data.id, username: data.display_name };
+    spotifyVal.getMe().then((user) => {
+      const userInfo = { id: user.id, username: user.display_name };
       dispatch(setUser(userInfo));
-    };
-    getUserInfo();
-  }, [dispatch, token]);
+    });
+  }, [dispatch]);
 
   return (
     <Container fluid className="p-0">

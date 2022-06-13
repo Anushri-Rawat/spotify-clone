@@ -1,32 +1,22 @@
 import React, { useEffect } from "react";
-import axios from "axios";
-import { useSelector, usedispatch, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setPlaylist, setSelectedPlaylistId } from "../services/tokenSlice";
 import "../App.css";
+import { spotifyVal } from "../App";
+import { Link } from "react-router-dom";
 
 function Playlist() {
   const { token, playlist } = useSelector((state) => state.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getPlaylistData = async () => {
-      const response = await axios.get(
-        "https://api.spotify.com/v1/me/playlists",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { items } = response.data;
-      const playlists = items.map(({ name, id }) => {
+    spotifyVal.getUserPlaylists().then((data) => {
+      const playlists = data.items.map(({ name, id }) => {
         return { name, id };
       });
       dispatch(setPlaylist(playlists));
-    };
-    getPlaylistData();
-  }, [token, dispatch]);
+    });
+  }, [dispatch]);
 
   const changeCurrentPlaylist = (id) => {
     dispatch(setSelectedPlaylistId(id));
@@ -37,9 +27,9 @@ function Playlist() {
       <p>Playlist</p>
       <ul>
         {playlist.map(({ name, id }) => (
-          <li key={id} onClick={() => changeCurrentPlaylist(id)}>
-            {name}
-          </li>
+          <Link to={`/playlist/${id}`} key={id}>
+            <li onClick={() => changeCurrentPlaylist(id)}>{name}</li>
+          </Link>
         ))}
       </ul>
     </div>

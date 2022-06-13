@@ -4,11 +4,6 @@ import { FaBroadcastTower, FaMicrophoneAlt, FaPodcast } from "react-icons/fa";
 
 const MenuList = [
   {
-    id: 1,
-    icon: <BsFillHouseFill />,
-    name: "Home",
-  },
-  {
     id: 2,
     icon: <BiSearchAlt />,
     name: "Search",
