@@ -10,7 +10,10 @@ import { MdNavigateNext } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ navBackground }) => {
-  const { user, searchResults } = useSelector((state) => state.token);
+  const { user, searchResults, isSearching } = useSelector(
+    (state) => state.token
+  );
+
   const dispatch = useDispatch();
   const inputRef = useRef();
   const navigate = useNavigate();
@@ -65,16 +68,18 @@ const Navbar = ({ navBackground }) => {
             </div>
           </div>
 
-          <div className="search__bar">
-            <FaSearch />
-            <input
-              type="text"
-              ref={inputRef}
-              placeholder="Search songs"
-              onChange={searchHandler}
-            />
-            <MdOutlineCancel onClick={resetHandler} />
-          </div>
+          {isSearching && (
+            <div className="search__bar">
+              <FaSearch />
+              <input
+                type="text"
+                ref={inputRef}
+                placeholder="Search songs"
+                onChange={searchHandler}
+              />
+              <MdOutlineCancel onClick={resetHandler} />
+            </div>
+          )}
         </div>
         <div className="avatar">
           <a href="#">

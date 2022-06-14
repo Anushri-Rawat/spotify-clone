@@ -9,6 +9,7 @@ const initialState = {
   currentlyPlaying: null,
   playerState: false,
   searchResults: [],
+  isSearching: false,
 };
 const tokenSlice = createSlice({
   name: "token",
@@ -38,6 +39,9 @@ const tokenSlice = createSlice({
     setSearchResults: (state, action) => {
       state.searchResults = action.payload;
     },
+    setIsSearching: (state, action) => {
+      state.isSearching = action.payload;
+    },
   },
 });
 export const {
@@ -49,6 +53,7 @@ export const {
   setPlayerState,
   setSelectedPlaylistId,
   setSearchResults,
+  setIsSearching,
 } = tokenSlice.actions;
 
 export default tokenSlice.reducer;

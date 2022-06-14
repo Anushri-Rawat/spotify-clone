@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import Navbar from "./Navbar";
 import Dashboard from "./Dashboard";
 import PlaylistSection from "./PlaylistSection";
+import SearchResults from "./SearchResults";
 import { Routes, Route } from "react-router-dom";
 
 function MainContainer() {
@@ -27,6 +28,7 @@ function MainContainer() {
           path="/playlist/:id"
           element={<PlaylistSection headerBackground={headerBackground} />}
         ></Route>
+        <Route path="/search" element={<SearchResults />}></Route>
       </Routes>
     </div>
   );

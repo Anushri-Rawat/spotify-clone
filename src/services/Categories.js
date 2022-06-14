@@ -5,6 +5,8 @@ const initialState = {
   featured: null,
   releases: null,
   recentlyPlayed: null,
+  categories: null,
+  artists: null,
 };
 const Categories = createSlice({
   name: "categories",
@@ -22,6 +24,12 @@ const Categories = createSlice({
     setRecentlyPlayed: (state, action) => {
       state.recentlyPlayed = action.payload;
     },
+    setCategories: (state, action) => {
+      state.categories = action.payload;
+    },
+    setArtists: (state, action) => {
+      state.artists = action.payload;
+    },
   },
 });
 export const {
@@ -29,6 +37,7 @@ export const {
   setRecommendations,
   setReleases,
   setRecentlyPlayed,
+  setCategories,
 } = Categories.actions;
 
 export default Categories.reducer;
